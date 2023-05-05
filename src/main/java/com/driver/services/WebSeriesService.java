@@ -37,9 +37,7 @@ public class WebSeriesService {
         webSeries.setAgeLimit(webSeriesEntryDto.getAgeLimit());
         webSeries.setRating(webSeriesEntryDto.getRating());
         webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
-        webSeries.setProductionHouse(productionHouse);
 
-     int id = webSeriesRepository.save(webSeries).getId();
 
         float ratings=0;
 
@@ -51,8 +49,10 @@ public class WebSeriesService {
 
         productionHouse.setRatings(ratings/webSeriesList.size());
         productionHouse.getWebSeriesList().add(webSeries);
+        webSeries.setProductionHouse(productionHouse);
 
-        productionHouseRepository.save(productionHouse);
+
+        int id = webSeriesRepository.save(webSeries).getId();
 
         return id;
     }
