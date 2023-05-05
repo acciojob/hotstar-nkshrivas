@@ -39,12 +39,7 @@ public class WebSeriesService {
         webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
         webSeries.setProductionHouse(productionHouse);
 
-        int id;
-        try {
-           id = webSeriesRepository.save(webSeries).getId();
-        }catch (Exception e){
-            throw new Exception("Series is already present");
-        }
+     int id = webSeriesRepository.save(webSeries).getId();
 
         float ratings=0;
 
