@@ -28,7 +28,9 @@ public class WebSeriesService {
         WebSeries webSeries=new WebSeries();
         ProductionHouse productionHouse=productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
 
-
+        if (webSeriesRepository.findBySeriesName(webSeriesEntryDto.getSeriesName())!=null) {
+            throw new Exception("Series is already present");
+        }
 
 
         webSeries.setSeriesName(webSeries.getSeriesName());
@@ -38,6 +40,8 @@ public class WebSeriesService {
 
 
         float ratings=0;
+        productionHouse.getWebSeriesList().add(webSeries);
+
 
         List<WebSeries> webSeriesList=productionHouse.getWebSeriesList();
 
@@ -46,15 +50,11 @@ public class WebSeriesService {
         }
 
         productionHouse.setRatings(ratings/webSeriesList.size());
-        productionHouse.getWebSeriesList().add(webSeries);
         webSeries.setProductionHouse(productionHouse);
 
-        int id;
-        try {
-            id = webSeriesRepository.save(webSeries).getId();
-        }catch (Exception e){
-            throw new  Exception("Series is already present");
-        }
+
+        int id = webSeriesRepository.save(webSeries).getId();
+
         return id;
     }
 
